@@ -1,0 +1,27 @@
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: blue;
+}
+
+nav ul li::after {
+  content: '>';
+  margin-left: 10px;
+}
+
+nav ul li:last-child::after {
+  content: '';
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}

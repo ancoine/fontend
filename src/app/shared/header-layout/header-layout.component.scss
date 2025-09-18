@@ -1,0 +1,30 @@
+.header-bar {
+
+  background:
+    url('/assets/trongdong.png') left -40px center / 420px auto no-repeat,
+    url('/assets/anhmenu.png') right -10px top -2px / 1150px 100px no-repeat, 
+    url('/assets/image89.png') right -30px top 0 / 1120px 100px no-repeat,
+    linear-gradient(90deg, #ffffff 40%, #ffdfdf 62%, #b9000e 85%, #b9000e 100%);
+
+  
+  filter: none;
+}
+
+@media (max-width: 1536px) {
+  .header-bar {
+    background:
+      url('/assets/trongdong.png') left -60px center / 360px auto no-repeat,
+      url('/assets/anhmenu.png') right -30px top -2px / 980px 96px no-repeat,
+      url('/assets/image89.png') right -50px top 0 / 940px 96px no-repeat,
+      linear-gradient(90deg, #ffffff 42%, #ffdfdf 64%, #b9000e 86%, #b9000e 100%);
+  }
+}
+@media (max-width: 1280px) {
+  .header-bar {
+    background:
+      url('/assets/trongdong.png') left -80px center / 300px auto no-repeat,
+      url('/assets/anhmenu.png') right -60px top -2px / 820px 96px no-repeat,
+      url('/assets/image89.png') right -80px top 0 / 780px 96px no-repeat,
+      linear-gradient(90deg, #ffffff 45%, #ffdfdf 66%, #b9000e 88%, #b9000e 100%);
+  }
+}

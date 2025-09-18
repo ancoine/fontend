@@ -1,0 +1,93 @@
+<!-- src/app/layout/sidebar/sidebar.component.html -->
+<aside class="relative shrink-0 h-screen sticky top-0 bg-white border-r border-gray-200 transition-[width] duration-300"
+  [class.w-[240px]]="isOpen" [class.w-[55px]]="!isOpen">
+  <!-- Header nhỏ trong sidebar (tuỳ chọn) -->
+
+
+  <!-- Menu -->
+  <nav class="px-2 pb-4 overflow-y-auto h-[calc(100vh-60px)]">
+    <a class="flex items-center gap-3 rounded-md px-2 h-10 mb-1 text-white bg-[#c61018]" href="#">
+      <i class="bi bi-speedometer2 text-[18px] shrink-0"></i>
+      <span class="text-sm font-medium whitespace-nowrap" [class.hidden]="!isOpen">Tổng quan</span>
+    </a>
+
+    <!-- Group Danh mục -->
+    <div class="mb-1">
+
+
+      <button class="w-full flex items-center gap-3 rounded-md px-2 h-10 text-gray-700 hover:bg-gray-100"
+        (click)="toggleGroup('catalog')" [attr.aria-expanded]="isGroupOpen('catalog')">
+        <i class="bi bi-grid text-[18px] shrink-0"></i>
+        <span class="text-sm font-medium whitespace-nowrap">Danh mục</span>
+
+        <i class="bi bi-chevron-down ml-auto text-[14px] transition-transform duration-200"
+          [class.rotate-180]="isGroupOpen('catalog')"></i>
+      </button>
+
+      <div #catalogRef class="pl-[34px] pr-2 transition-all duration-200 overflow-hidden"
+        [style.maxHeight.px]="isGroupOpen('catalog') ? catalogRef.scrollHeight : 0">
+        <div class="flex flex-col gap-1">
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Nguồn hình thành</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Nhóm TSCD</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Nguồn gốc tăng TSCD</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Quản lý phòng ban</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Nhóm CCDC</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Công cụ dụng cụ</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Lý do tăng CCDC</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Lý do giảm CCDC</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Mục đích sử dụng</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Hình thức mua sắm</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Phương thức mua sắm</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Nhà cung cấp</a>
+          <a class="h-[46px] flex items-center rounded-md px-2 text-[14px] font-medium font-sans text-gray-700 hover:bg-gray-100"
+            href="#">Khách hàng</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tài sản cố định -->
+    <button class="w-full flex items-center gap-3 rounded-md px-2 h-10 text-gray-700 hover:bg-gray-100">
+      <i class="bi bi-truck-front text-[18px] shrink-0"></i>
+      <span class="text-sm font-medium whitespace-nowrap">Tài sản cố định</span>
+
+      <i class="bi bi-chevron-down ml-auto text-[14px] transition-transform duration-200"
+        [class.rotate-180]="isGroupOpen('catalog')"></i>
+    </button>
+    <!-- Công cụ dụng cụ -->
+    <button class="w-full flex items-center gap-3 rounded-md px-2 h-10 text-gray-700 hover:bg-gray-100">
+      <i class="bi bi-gear text-[18px] shrink-0"></i>
+      <span class="text-sm font-medium whitespace-nowrap">Công cụ dụng cụ</span>
+
+      <i class="bi bi-chevron-down ml-auto text-[14px] transition-transform duration-200"
+        [class.rotate-180]="isGroupOpen('catalog')"></i>
+    </button>
+    <!-- báo cáo -->
+    <button class="w-full flex items-center gap-3 rounded-md px-2 h-10 text-gray-700 hover:bg-gray-100">
+      <i class="bi bi-bar-chart-line text-[18px] shrink-0"></i>
+      <span class="text-sm font-medium whitespace-nowrap">Báo cáo</span>
+
+      <i class="bi bi-chevron-down ml-auto text-[14px] transition-transform duration-200"
+        [class.rotate-180]="isGroupOpen('catalog')"></i>
+    </button>
+    <!-- Tra cứu -->
+    <button class="w-full flex items-center gap-3 rounded-md px-2 h-10 text-gray-700 hover:bg-gray-100">
+      <i class="bi bi-search text-[18px] shrink-0"></i>
+      <span class="text-sm font-medium whitespace-nowrap">Tra cứu</span>
+
+      <i class="bi bi-chevron-down ml-auto text-[14px] transition-transform duration-200"></i>
+    </button>
+  </nav>
+</aside>

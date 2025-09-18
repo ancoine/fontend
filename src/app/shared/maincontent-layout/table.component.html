@@ -1,0 +1,32 @@
+
+<div class="container mx-auto my-4 p-4">
+  <table class="min-w-full table-auto border-collapse">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2 text-left border-b">STT</th>
+        <th class="px-4 py-2 text-left border-b">MÃ CT</th>
+        <th class="px-4 py-2 text-left border-b">NGÀY CT</th>
+        <th class="px-4 py-2 text-left border-b">MÃ TSCD</th>
+        <th class="px-4 py-2 text-left border-b">TÊN TSCD</th>
+        <th class="px-4 py-2 text-left border-b">THAO TÁC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Duyệt qua dữ liệu từ backend và hiển thị -->
+    <tr *ngFor="let row of data; let i = index">
+        <td class="px-4 py-2 border-b">{{ row.stt }}</td>
+        <td class="px-4 py-2 border-b">{{ row.maCT }}</td>
+        <td class="px-4 py-2 border-b">{{ row.ngayCT }}</td>
+        <td class="px-4 py-2 border-b">{{ row.maTscd }}</td>
+        <td class="px-4 py-2 border-b">{{ row.tenTscd }}</td>
+        <td class="px-4 py-2 border-b">
+          <!-- Các thao tác cho sửa và xóa -->
+          <button (click)="editRow(i)" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Sửa</button>
+          <button (click)="deleteRow(i)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 ml-2">Xóa</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button (click)="addNewRow()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">Thêm mới</button>
+</div>
