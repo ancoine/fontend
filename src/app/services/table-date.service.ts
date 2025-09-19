@@ -7,29 +7,27 @@ import { Observable } from 'rxjs';
 })
 export class TableDataService {
 
-  private apiUrl = '/api/asset-fixed-decreases';  // Địa chỉ API của backend
+  private apiUrl = 'http://localhost:8080/api/asset-fixed-decreases';
 
   constructor(private http: HttpClient) { }
 
   // Lấy tất cả dữ liệu từ backend
   getData(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);  // Gọi API từ backend và trả về Observable
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  // Thêm mới một dòng (có thể gửi dữ liệu lên backend nếu cần)
+  // Thêm mới một dòng
   addNewRow(newRow: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, newRow);  // Gửi dữ liệu mới lên backend
+    return this.http.post<any>(this.apiUrl, newRow);
   }
 
-  // Sửa thông tin dòng
-  editRow(index: number, updatedRow: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${updatedRow.stt}`, updatedRow);  // Gửi dữ liệu đã sửa lên backend
+  // Sửa thông tin dòng - Sửa lại để sử dụng asserFixedId
+  updateRow(id: number, updatedRow: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, updatedRow);
   }
 
   // Xóa một dòng
-  deleteRow(index: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${index}`);  // Gửi yêu cầu xóa dòng trên backend
+  deleteRow(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }
-
-

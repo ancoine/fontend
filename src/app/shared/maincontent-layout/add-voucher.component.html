@@ -1,0 +1,244 @@
+<div class="mx-auto my-4 p-4">
+  <!-- Breadcrumb + tiêu đề -->
+  <div class="mb-6">
+    <nav class="text-sm text-gray-500 flex items-center gap-2 mb-3">
+      <span class="inline-flex items-center gap-1">
+        <span class="material-icons text-gray-400 text-base">home</span>
+        <a routerLink="/" class="hover:underline">Primary</a>
+      </span>
+      <span>›</span>
+      <a routerLink="/secondary" class="hover:underline">Secondary</a>
+      <span>›</span>
+      <span class="text-gray-700">Current page</span>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <button (click)="goBack()" class="text-gray-600 hover:text-gray-800">
+        <i class="bi bi-arrow-left text-xl"></i>
+      </button>
+      <h1 class="text-xl font-semibold text-gray-800">
+        Thêm mới chứng từ ghi giảm TSCĐ
+      </h1>
+    </div>
+  </div>
+
+  <!-- Form chính -->
+  <form [formGroup]="voucherForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    
+    <!-- Thông tin tài sản -->
+    <div class="bg-white border rounded-lg">
+      <div class="border-b p-4">
+        <h3 class="text-lg font-medium text-gray-800 flex items-center gap-2">
+          <i class="bi bi-chevron-down text-gray-500"></i>
+          Thông tin tài sản
+        </h3>
+      </div>
+      <div class="p-4 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Tên tài sản <span class="text-red-500">*</span>
+            </label>
+            <select formControlName="assetFixedId" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <option value="">Chọn tên tài sản</option>
+              <option *ngFor="let asset of assets" [value]="asset.id">{{ asset.name }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Người lập phiếu
+            </label>
+            <input formControlName="employeeId" type="text" placeholder="Nhập người lập phiếu"
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chứng từ -->
+    <div class="bg-white border rounded-lg">
+      <div class="border-b p-4">
+        <h3 class="text-lg font-medium text-gray-800 flex items-center gap-2">
+          <i class="bi bi-chevron-down text-gray-500"></i>
+          Chứng từ
+        </h3>
+      </div>
+      <div class="p-4 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Ngày CT <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input formControlName="voucherDate" type="date"
+                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <i class="bi bi-calendar absolute right-3 top-2.5 text-gray-400"></i>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Số CT <span class="text-red-500">*</span>
+            </label>
+            <input formControlName="voucherNumber" type="text" placeholder="Nhập số CT"
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thông tin ghi giảm -->
+    <div class="bg-white border rounded-lg">
+      <div class="border-b p-4">
+        <h3 class="text-lg font-medium text-gray-800 flex items-center gap-2">
+          <i class="bi bi-chevron-down text-gray-500"></i>
+          Thông tin ghi giảm
+        </h3>
+      </div>
+      <div class="p-4 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Số QĐ
+            </label>
+            <input formControlName="decisionNo" type="text" placeholder="Nhập số QĐ"
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Ngày QĐ
+            </label>
+            <div class="relative">
+              <input formControlName="decisionDate" type="date"
+                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <i class="bi bi-calendar absolute right-3 top-2.5 text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              HT xử lý <span class="text-red-500">*</span>
+            </label>
+            <select formControlName="type" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <option value="">Chọn hình thức xử lý</option>
+              <option *ngFor="let processingMethod of processingMethods" [value]="processingMethod.id">{{ processingMethod.name }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Số hóa đơn
+            </label>
+            <input formControlName="invoiceNo" type="text" placeholder="Nhập số hóa đơn"
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Ngày hóa đơn
+            </label>
+            <div class="relative">
+              <input formControlName="invoiceDate" type="date"
+                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <i class="bi bi-calendar absolute right-3 top-2.5 text-gray-400"></i>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Lý do giảm <span class="text-red-500">*</span>
+            </label>
+            <select formControlName="assetProcCost" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <option value="">Chọn lý do giảm</option>
+              <option *ngFor="let decreaseReason of decreaseReasons" [value]="decreaseReason.id">{{ decreaseReason.name }}</option>
+              
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thu thanh lý TSCĐ -->
+    <div class="bg-white border rounded-lg">
+      <div class="border-b p-4">
+        <h3 class="text-lg font-medium text-gray-800 flex items-center gap-2">
+          <i class="bi bi-chevron-down text-gray-500"></i>
+          Thu thanh lý TSCĐ
+        </h3>
+      </div>
+      <div class="p-4 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Thu từ ghi giảm
+            </label>
+            <input formControlName="decRev" type="number" placeholder="Nhập thu từ ghi giảm"
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Đã nộp TK TG
+            </label>
+            <input formControlName="depAccPaid" type="number" placeholder="Nhập đã nộp TK TG"
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Chưa nộp TK TG
+            </label>
+            <input formControlName="depAccUnpaid" type="number" placeholder="Nhập chưa nộp TK TG"
+                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Chi phí xử lý TS
+            </label>
+            <select formControlName="assetProcCost" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+              <option value="">Chọn lý do giảm</option>
+               <option *ngFor="let processingCost of processingCosts" [value]="processingCost.id">{{ processingCost.name }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mô tả -->
+    <div class="bg-white border rounded-lg">
+      <div class="border-b p-4">
+        <h3 class="text-lg font-medium text-gray-800 flex items-center gap-2">
+          <i class="bi bi-chevron-down text-gray-500"></i>
+          Mô tả
+        </h3>
+      </div>
+      <div class="p-4">
+        <div class="relative">
+          <textarea formControlName="description" rows="4" placeholder="Nhập mô tả"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"></textarea>
+          <div class="absolute bottom-2 right-2 text-xs text-gray-400">
+            {{ voucherForm.get('description')?.value?.length || 0 }}/1000
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="flex items-center justify-end gap-3 pt-6">
+      <button type="button" class="flex items-center gap-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
+        <i class="bi bi-question-circle"></i>
+        Trợ giúp
+      </button>
+      <button type="button" (click)="goBack()" class="flex items-center gap-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
+        <i class="bi bi-x-circle"></i>
+        Hủy bỏ
+      </button>
+      <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+        <i class="bi bi-check-circle"></i>
+        Xác nhận
+      </button>
+    </div>
+  </form>
+</div>

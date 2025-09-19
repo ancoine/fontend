@@ -1,32 +1,113 @@
+< class="mx-auto my-4 p-4">
+  <!-- Thanh hành động bên phải -->
+  <div class="flex items-center justify-end gap-2 mb-3">
+    <button class="px-3 py-1 border rounded hover:bg-gray-50">Nạp dữ liệu</button>
+    <button class="px-3 py-1 border rounded hover:bg-gray-50">In</button>
+    <button class="px-3 py-1 border rounded hover:bg-red-50 text-red-600">Xóa</button>
+    <button (click)="startAdd()" class="bg-red-500 text-white px-3 py-1 rounded">+ Thêm mới</button>
+  </div>
+  
+  <!-- Breadcrumb + tiêu đề -->
+  <div class="mb-3">
+    <nav class="text-sm text-gray-500 flex items-center gap-2">
+      <span class="inline-flex items-center gap-1">
+        <span class="material-icons text-gray-400 text-base">home</span>
+        <a routerLink="/" class="hover:underline">Primary</a>
+      </span>
+      <span>›</span>
+      <a routerLink="/secondary" class="hover:underline">Secondary</a>
+      <span>›</span>
+      <span class="text-gray-700">Current page</span>
+    </nav>
 
-<div class="container mx-auto my-4 p-4">
-  <table class="min-w-full table-auto border-collapse">
-    <thead class="bg-gray-100">
-      <tr>
-        <th class="px-4 py-2 text-left border-b">STT</th>
-        <th class="px-4 py-2 text-left border-b">MÃ CT</th>
-        <th class="px-4 py-2 text-left border-b">NGÀY CT</th>
-        <th class="px-4 py-2 text-left border-b">MÃ TSCD</th>
-        <th class="px-4 py-2 text-left border-b">TÊN TSCD</th>
-        <th class="px-4 py-2 text-left border-b">THAO TÁC</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Duyệt qua dữ liệu từ backend và hiển thị -->
-    <tr *ngFor="let row of data; let i = index">
-        <td class="px-4 py-2 border-b">{{ row.stt }}</td>
-        <td class="px-4 py-2 border-b">{{ row.maCT }}</td>
-        <td class="px-4 py-2 border-b">{{ row.ngayCT }}</td>
-        <td class="px-4 py-2 border-b">{{ row.maTscd }}</td>
-        <td class="px-4 py-2 border-b">{{ row.tenTscd }}</td>
-        <td class="px-4 py-2 border-b">
-          <!-- Các thao tác cho sửa và xóa -->
-          <button (click)="editRow(i)" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Sửa</button>
-          <button (click)="deleteRow(i)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 ml-2">Xóa</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <h1 class="mt-2 text-xl font-semibold text-gray-800">
+      Ghi giảm tài sản cố định
+    </h1>
+  </div>
+  
+  <div class="overflow-auto border rounded-md">
+    <table class="min-w-full table-fixed">
+      <thead class="bg-gray-50">
+        <tr class="text-left text-xs text-gray-600">
+          <th class="px-4 py-2 w-16">STT</th>
+          <th class="px-4 py-2 w-28">MÃ CT</th>
+          <th class="px-4 py-2 w-32">NGÀY CT</th>
+          <th class="px-4 py-2 w-28">MÃ TSCD</th>
+          <th class="px-4 py-2">TÊN TSCD</th>
+          <th class="px-4 py-2 w-28 text-right">THAO TÁC</th>
+        </tr>
+        <!-- Hàng lọc -->
+        <tr class="bg-white text-xs">
+          <th class="px-4 py-2"></th>
+          <th class="px-4 py-2">
+            <input [(ngModel)]="filters.voucherNo" placeholder="Nhập"
+                   class="w-full border rounded px-2 py-1 text-xs" />
+          </th>
+          <th class="px-4 py-2">
+            <input [(ngModel)]="filters.voucherDate" type="date"
+                   class="w-full border rounded px-2 py-1 text-xs" />
+          </th>
+          <th class="px-4 py-2">
+            <input [(ngModel)]="filters.code" placeholder="Nhập"
+                   class="w-full border rounded px-2 py-1 text-xs" />
+          </th>
+          <th class="px-4 py-2">
+            <input [(ngModel)]="filters.name" placeholder="Nhập tên dự toán"
+                   class="w-full border rounded px-2 py-1 text-xs" />
+          </th>
+          <th class="px-4 py-2 text-right">
+            <button (click)="clearFilters()" class="text-red-500 text-xs">Xóa bộ lọc</button>
+          </th>
+        </tr>
+      </thead>
 
-  <button (click)="addNewRow()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">Thêm mới</button>
-</div>
+      <tbody>
+        <tr *ngFor="let row of pagedRows(); let i = index">
+          <td>{{ (pageIndex * pageSize) + i + 1 }}</td>
+          <td>{{ row.voucherCode }}</td>
+          <td>{{ row.voucherDate | date:'yyyy-MM-dd' }}</td>
+          <td>{{ row.code }}</td>
+          <td>{{ row.name }}</td>
+
+          <td>
+            <div class="flex items-center justify-end gap-3 text-gray-600">
+              <button title="Sao chép" (click)="$event.stopPropagation(); duplicate(row)">⎘</button>
+              <button title="Sửa" (click)="$event.stopPropagation(); editRowByObject(row)">✎</button>
+              <button title="Xóa" class="text-red-600" (click)="$event.stopPropagation(); deleteRow(row.asserFixedId)">🗑</button>
+              <button title="Khác" (click)="$event.stopPropagation(); more(row)">⋮</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer phân trang -->
+  <div class="flex items-center justify-between text-sm text-gray-600 mt-3">
+    <div class="flex items-center gap-2">
+      <span>Hiển thị</span>
+      <select [(ngModel)]="pageSize" (change)="goFirst()" class="border rounded px-2 py-1">
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="15">15</option>
+        <option [ngValue]="20">20</option>
+      </select>
+      <span>Tổng: {{ filteredRows.length }} bản ghi</span>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <button class="px-2 py-1 border rounded" (click)="goFirst()" [disabled]="pageIndex===0">«</button>
+      <button class="px-2 py-1 border rounded" (click)="prevPage()" [disabled]="pageIndex===0">‹</button>
+
+      <ng-container *ngFor="let p of pages()">
+        <button class="px-3 py-1 border rounded"
+                [class.bg-red-500]="p===pageIndex"
+                [class.text-white]="p===pageIndex"
+                (click)="goPage(p)">
+          {{ p+1 }}
+        </button>
+      </ng-container>
+
+      <button class="px-2 py-1 border rounded" (click)="nextPage()" [disabled]="(pageIndex+1)>=totalPages()">›</button>
+      <button class="px-2 py-1 border rounded" (click)="goLast()" [disabled]="(pageIndex+1)>=totalPages()">»</button>
+    </div>
+  </div>

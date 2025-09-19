@@ -6,13 +6,13 @@
 
     <div class="flex-1 min-w-0 flex flex-col">
       <main class="flex-1 min-h-0 overflow-auto">
-        <table-data></table-data>
-        <router-outlet></router-outlet>
+        <!-- Hiển thị bảng mặc định -->
+        <table-data *ngIf="!showAddForm" (showAddForm)="toggleView($event)"></table-data>
+        
+        <!-- Hiển thị form khi cần -->
+        <app-add-voucher *ngIf="showAddForm" (showAddForm)="toggleView($event)"></app-add-voucher>
       </main>
     </div>
   </div>
 </div>
-
-
-  
 

@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\services",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared\\maincontent-layout"
+  ],
+  "SelectedNode": "\\src\\app\\shared\\maincontent-layout\\table-component.ts",
+  "PreviewInSolutionExplorer": false
+}
