@@ -24,7 +24,7 @@ interface Filters {
   imports: [CommonModule, FormsModule],
 })
 export class TableData implements OnInit {
-  @Output() showAddForm = new EventEmitter<boolean>(); // Thêm @Output event
+  @Output() showAddForm = new EventEmitter<boolean>(); 
 
   data: TableRow[] = [];
   filteredRows: TableRow[] = [];
@@ -92,25 +92,6 @@ export class TableData implements OnInit {
   editRowByObject(row: TableRow): void {
     this.isAdding = false;
     this.editing = { ...row };
-  }
-
-  // Sao chép dòng
-  duplicate(row: TableRow): void {
-    const duplicatedRow = {
-      ...row,
-      asserFixedId: 0,
-      voucherCode: row.voucherCode + '_copy'
-    };
-    
-    this.tableDataService.addNewRow(duplicatedRow).subscribe(
-      (response) => {
-        this.data.push(response);
-        this.applyFilters();
-      },
-      (error) => {
-        console.error('Có lỗi xảy ra khi sao chép dòng:', error);
-      }
-    );
   }
 
   // Xóa dòng

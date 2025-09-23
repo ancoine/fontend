@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class TableDataService {
 
-  private apiUrl = 'http://localhost:8080/api/asset-fixed-decreases';
+  private apiUrl = 'http://localhost:8080/api/asset-fixed';
 
   constructor(private http: HttpClient) { }
 
@@ -19,6 +19,7 @@ export class TableDataService {
   // Thêm mới một dòng
   addNewRow(newRow: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, newRow);
+    
   }
 
   // Sửa thông tin dòng - Sửa lại để sử dụng asserFixedId

@@ -27,7 +27,7 @@ export class DropdownDataService {
     return this.http.get<DropdownItem[]>(`${this.baseUrl}/decrease-reasons`);
   }
 
-  getProcessingCosts(): Observable<DropdownItem[]> {
-    return this.http.get<DropdownItem[]>(`${this.baseUrl}/processing-costs`);
-  }
+  // getProcessingCosts(): Observable<DropdownItem[]> {
+  //   return this.http.get<DropdownItem[]>(`${this.baseUrl}/processing-costs`);
+  // }
 }

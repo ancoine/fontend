@@ -59,6 +59,7 @@ export class AddVoucherComponent implements OnInit {
   ngOnInit(): void {
     this.setDefaultDates();
     this.loadAllDropdownData();
+    
   }
 
   setDefaultDates(): void {
@@ -94,18 +95,13 @@ export class AddVoucherComponent implements OnInit {
           return of([]);
         })
       ),
-      processingCosts: this.dropdownService.getProcessingCosts().pipe(
-        catchError(error => {
-          console.error('Lỗi khi tải danh sách chi phí xử lý:', error);
-          return of([]);
-        })
-      )
+     
     }).subscribe({
       next: (data) => {
         this.assets = data.assets;
         this.processingMethods = data.processingMethods;
         this.decreaseReasons = data.decreaseReasons;
-        this.processingCosts = data.processingCosts;
+      
         this.loadingAll = false;
       },
       error: (error) => {
@@ -160,19 +156,19 @@ export class AddVoucherComponent implements OnInit {
     });
   }
 
-  loadProcessingCosts(): void {
-    this.loadingProcessingCosts = true;
-    this.dropdownService.getProcessingCosts().subscribe({
-      next: (costs) => {
-        this.processingCosts = costs;
-        this.loadingProcessingCosts = false;
-      },
-      error: (error) => {
-        console.error('Lỗi khi tải danh sách chi phí xử lý:', error);
-        this.loadingProcessingCosts = false;
-      }
-    });
-  }
+  // loadProcessingCosts(): void {
+  //   this.loadingProcessingCosts = true;
+  //   this.dropdownService.getProcessingCosts().subscribe({
+  //     next: (costs) => {
+  //       this.processingCosts = costs;
+  //       this.loadingProcessingCosts = false;
+  //     },
+  //     error: (error) => {
+  //       console.error('Lỗi khi tải danh sách chi phí xử lý:', error);
+  //       this.loadingProcessingCosts = false;
+  //     }
+  //   });
+  // }
 
   // Retry loading data
   retryLoadData(): void {
