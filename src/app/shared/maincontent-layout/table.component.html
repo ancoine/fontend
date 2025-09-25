@@ -2,7 +2,7 @@
 <div class="mx-auto my-4 p-4 bg-[#F0F2F4]">
 
 
-  <div class="bg-white">
+  <div class="bg-white w-[1634px] h-[74px] top-[70px] left-[276px] gap-2 p-2 opacity-100">
     <div class="mb-3">
       <nav aria-label="Breadcrumb" class="text-sm text-gray-500 flex items-center gap-2 whitespace-nowrap">
 
@@ -35,7 +35,7 @@
   </div>
 
 
-  <div class="overflow-auto bg-white">
+<div class="overflow-auto bg-white w-[1634px] h-[962px] top-[154px] left-[276px] gap-2 pt-2 pb-2 opacity-100">
     <div class="flex items-center  justify-end gap-2 mb-3">
       <button class="flex items-center justify-center gap-2
                w-[130px] h-[36px]
@@ -112,15 +112,15 @@
 
 
     </div>
-    <table class="min-w-full table-fixed">
+    <table  class="min-w-full table-fixed w-[1634px] h-[850px] opacity-100 px-2">
       <thead class="bg-[#F0F2F4]">
         <tr class="text-left text-xs text-[#111827] size-12">
-          <th class="px-4 py-2 w-16">STT</th>
-          <th class="px-4 py-2 w-28">MÃ CT</th>
-          <th class="px-4 py-2 w-32">NGÀY CT</th>
-          <th class="px-4 py-2 w-28">MÃ TSCD</th>
-          <th class="px-4 py-2">TÊN TSCD</th>
-          <th class="px-4 py-2 w-28 text-right">THAO TÁC</th>
+          <th class="px-4 py-2 w-[100px] h-[44px] opacity-100">STT</th>
+          <th class="px-4 py-2 w-[194.5px] h-[44px] opacity-100">MÃ CT</th>
+          <th class="px-4 py-2 w-[194.5x] h-[44px] opacity-100">NGÀY CT</th>
+          <th class="px-4 py-2 w-[194.5x] h-[44px] opacity-100">MÃ TSCD</th>
+          <th class="px-4 py-2 w-[776.5x] h-[44px] opacity-100">TÊN TSCD</th>
+          <th class="px-4 py-2 w-[154x] h-[44px] opacity-100">THAO TÁC</th>
         </tr>
 
         <tr class="bg-white text-xs">
@@ -146,22 +146,23 @@
 
       <tbody>
         <tr *ngFor="let row of pagedRows(); let i = index">
-          <td>{{ (pageIndex * pageSize) + i + 1 }}</td>
-          <td>{{ row.voucherCode }}</td>
-          <td>{{ row.voucherDate | date:'yyyy-MM-dd' }}</td>
-          <td>{{ row.code }}</td>
-          <td>{{ row.name }}</td>
+          <td class="w-[100px] h-[62px] opacity-100  border-b-[1px] pt-3 pr-4 pb-3 pl-4">{{ (pageIndex * pageSize) + i + 1 }}</td>
+          <td class="w-[194.5px] h-[62px] opacity-100 border-b-[1px] pt-3 pr-4 pb-3 pl-4">{{ row.voucherCode }}</td>
+          <td class="w-[194.5px] h-[62px] opacity-100 border-b-[1px] pt-3 pr-4 pb-3 pl-4">{{ row.voucherDate | date:'yyyy-MM-dd' }}</td>
+          <td class="w-[194.5px] h-[62px] opacity-100 border-b-[1px] pt-3 pr-4 pb-3 pl-4">{{ row.code }}</td>
+          <td class="w-[776.5px] h-[62px] opacity-100 border-b-[1px] pt-3 pr-4 pb-3 pl-4">{{ row.name }}</td>
 
-          <td>
+          <td class="w-[154px] h-[62px] opacity-100 border-b-[1px] gap-2 p-2">
             <div class="flex items-center justify-end gap-3 text-gray-600">
-              <button title="Sửa" (click)="$event.stopPropagation(); editRowByObject(row)"><svg
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                </svg>
-              </button>
-              <button title="Xóa" (click)="$event.stopPropagation(); deleteRow(row.asserFixedId)">
+              <button title="Sửa" (click)="$event.stopPropagation();onEdit(row)">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+    stroke="currentColor" class="size-6">
+    <path stroke-linecap="round" stroke-linejoin="round"
+      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+  </svg>
+</button>
+
+              <button title="Xóa" (click)="$event.stopPropagation(); deleteRow(row.assetFixedId)">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -169,7 +170,7 @@
                 </svg>
 
               </button>
-              <button title="Khác" (click)="$event.stopPropagation(); more(row)"><svg xmlns="http://www.w3.org/2000/svg"
+              <button title="Khác"><svg xmlns="http://www.w3.org/2000/svg"
                   fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
@@ -205,8 +206,8 @@
         </button>
       </ng-container>
 
-      <button class="px-2 py-1 border rounded" (click)="nextPage()" [disabled]="(pageIndex+1)>=totalPages()">›</button>
-      <button class="px-2 py-1 border rounded" (click)="goLast()" [disabled]="(pageIndex+1)>=totalPages()">»</button>
+      <button class="px-2 py-1 border rounded" (click)="nextPage()" [disabled]="(pageIndex+1)>=totalPages">›</button>
+      <button class="px-2 py-1 border rounded" (click)="goLast()" [disabled]="(pageIndex+1)>=totalPages">»</button>
     </div>
   </div>
 </div>

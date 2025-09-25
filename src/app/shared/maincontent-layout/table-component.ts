@@ -1,21 +1,15 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { TableDataService } from '../../services/table-date.service'; 
+import { TableDataService } from '../../services/table-date.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface TableRow {
-  asserFixedId: number;
-  voucherCode: string;
-  voucherDate: string;
-  code: string;
-  name: string;
-}
+import { TableRow } from '../../response/TableRow';
 
 interface Filters {
   voucherNo: string;
   voucherDate: string;
   code: string;
   name: string;
+  assetFixedId: number;
 }
 
 @Component({
@@ -24,36 +18,46 @@ interface Filters {
   imports: [CommonModule, FormsModule],
 })
 export class TableData implements OnInit {
-  @Output() showAddForm = new EventEmitter<boolean>(); 
-
+  @Output() showAddForm = new EventEmitter<boolean>();
+  @Output() editRow = new EventEmitter<TableRow>();
   data: TableRow[] = [];
   filteredRows: TableRow[] = [];
   editing: TableRow | null = null;
   isAdding: boolean = false;
-  
+
   // Phân trang
   pageIndex: number = 0;
   pageSize: number = 10;
-  
-  // Bộ lọc
+  totalPages: number = 1;
+
   filters: Filters = {
     voucherNo: '',
     voucherDate: '',
     code: '',
-    name: ''
+    name: '',
+    assetFixedId: 0,
   };
 
-  constructor(private tableDataService: TableDataService) { } // Bỏ Router
+  constructor(private tableDataService: TableDataService) {} // Bỏ Router
 
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData(): void {
-    this.tableDataService.getData().subscribe(
+    this.tableDataService.getData(this.pageIndex, this.pageSize).subscribe(
       (response) => {
-        this.data = response;
-        this.applyFilters();
+        // Kiểm tra và lấy mảng content từ response
+        if (Array.isArray(response.content)) {
+          this.data = response.content;
+
+          this.totalPages = response.totalPages;
+
+          this.filteredRows = [];
+          this.filteredRows = this.data;
+        } else {
+          console.error('Dữ liệu không có mảng content:', response);
+        }
       },
       (error) => {
         console.error('Có lỗi xảy ra khi lấy dữ liệu từ backend:', error);
@@ -61,15 +65,17 @@ export class TableData implements OnInit {
     );
   }
 
-  // Áp dụng bộ lọc
-  applyFilters(): void {
-    this.filteredRows = this.data.filter(row => {
-      return (!this.filters.voucherNo || row.voucherCode.toLowerCase().includes(this.filters.voucherNo.toLowerCase())) &&
-             (!this.filters.voucherDate || row.voucherDate === this.filters.voucherDate) &&
-             (!this.filters.code || row.code.toLowerCase().includes(this.filters.code.toLowerCase())) &&
-             (!this.filters.name || row.name.toLowerCase().includes(this.filters.name.toLowerCase()));
+  applyFilters() : void {
+    this.filteredRows = this.data.filter((row) => {
+      return (
+        (!this.filters.voucherNo ||
+          row.voucherCode.toLowerCase().includes(this.filters.voucherNo.toLowerCase())) &&
+        (!this.filters.voucherDate || row.voucherDate === this.filters.voucherDate) &&
+        (!this.filters.code || row.code.toLowerCase().includes(this.filters.code.toLowerCase())) &&
+        (!this.filters.name || row.name.toLowerCase().includes(this.filters.name.toLowerCase()))
+      );
     });
-    this.pageIndex = 0;
+    this.pageIndex = 1;
   }
 
   // Xóa bộ lọc
@@ -78,93 +84,89 @@ export class TableData implements OnInit {
       voucherNo: '',
       voucherDate: '',
       code: '',
-      name: ''
+      name: '',
+      assetFixedId: 0,
     };
     this.applyFilters();
   }
-
-  // Navigate đến form thêm mới - CHỈ GIỮ LẠI 1 METHOD
-  startAdd(): void {
-    this.showAddForm.emit(true); // Emit event thay vì navigate
+  startAdd() : void {
+    this.showAddForm.emit(true);
   }
 
-  // Chỉnh sửa dòng theo object
-  editRowByObject(row: TableRow): void {
-    this.isAdding = false;
-    this.editing = { ...row };
+  onEdit(row: TableRow) {
+    this.editRow.emit(row);
   }
 
   // Xóa dòng
   deleteRow(asserFixedId: number): void {
-    if (confirm('Bạn có chắc chắn muốn xóa dòng này?')) {
-      this.tableDataService.deleteRow(asserFixedId).subscribe(
-        () => {
-          this.data = this.data.filter(row => row.asserFixedId !== asserFixedId);
-          this.applyFilters();
-        },
-        (error) => {
-          console.error('Có lỗi xảy ra khi xóa dòng:', error);
-        }
-      );
-    }
+    console.log(asserFixedId);
+    this.tableDataService.deleteRow(asserFixedId).subscribe(
+      (response) => {
+        console.log('Xóa thành công:', response);
+
+        this.loadData();
+      },
+      (error) => {
+        console.error('Lỗi khi xóa:', error);
+      }
+    );
   }
 
-  // Menu thêm
-  more(row: TableRow): void {
-    console.log('More options for row:', row);
+  pagedRows() : TableRow[] {
+    const start = 0;
+    const end = this.pageSize;
+    return this.filteredRows.slice(start, end)
   }
 
-  // Phân trang
-  pagedRows(): TableRow[] {
-    const start = this.pageIndex * this.pageSize;
-    const end = start + this.pageSize;
-    return this.filteredRows.slice(start, end);
-  }
-
-  totalPages(): number {
-    return Math.ceil(this.filteredRows.length / this.pageSize);
-  }
-
-  pages(): number[] {
-    const total = this.totalPages();
+  pages() : number[] {
     const pages: number[] = [];
     const maxVisible = 5;
-    
+
     let start = Math.max(0, this.pageIndex - Math.floor(maxVisible / 2));
-    let end = Math.min(total, start + maxVisible);
-    
+    let end = Math.min(this.totalPages, start + maxVisible);
+
     if (end - start < maxVisible) {
       start = Math.max(0, end - maxVisible);
     }
-    
+
     for (let i = start; i < end; i++) {
       pages.push(i);
     }
-    
+
     return pages;
+  }
+  onPageSizeChange(newPageSize: number): void {
+    this.pageSize = newPageSize;
+    this.pageIndex = 0;
+    this.loadData();
   }
 
   goFirst(): void {
     this.pageIndex = 0;
+    this.loadData();
   }
 
   goLast(): void {
-    this.pageIndex = this.totalPages() - 1;
+    this.pageIndex = this.totalPages - 1;
+    this.loadData();
   }
 
   prevPage(): void {
     if (this.pageIndex > 0) {
       this.pageIndex--;
+      this.loadData();
     }
   }
 
   nextPage(): void {
-    if (this.pageIndex < this.totalPages() - 1) {
+    if (this.pageIndex < this.totalPages - 1) {
       this.pageIndex++;
     }
+    this.loadData();
   }
 
   goPage(page: number): void {
     this.pageIndex = page;
+    this.loadData();
   }
 }

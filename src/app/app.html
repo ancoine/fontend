@@ -6,13 +6,27 @@
 
     <div class="flex-1 min-w-0 flex flex-col">
       <main class="flex-1 min-h-0 overflow-auto">
-        <!-- Hiển thị bảng mặc định -->
-        <table-data *ngIf="!showAddForm" (showAddForm)="toggleView($event)"></table-data>
         
-        <!-- Hiển thị form khi cần -->
-        <app-add-voucher *ngIf="showAddForm" (showAddForm)="toggleView($event)"></app-add-voucher>
+        <!-- Hiển thị bảng mặc định -->
+        <table-data 
+          *ngIf="!showAddForm && !editingRow" 
+          (showAddForm)="toggleView($event)" 
+          (editRow)="onEditRow($event)">
+        </table-data>
+        
+        <!-- Hiển thị form thêm -->
+        <app-add-voucher 
+          *ngIf="showAddForm" 
+          (showAddForm)="toggleView($event)">
+        </app-add-voucher>
+
+        <!-- Hiển thị form sửa -->
+        <app-edit-voucher 
+          *ngIf="editingRow" 
+          [row]="editingRow" 
+          (closeForm)="closeEdit()">
+        </app-edit-voucher>
       </main>
     </div>
   </div>
-</div>
-
+  </div>

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PaginationResponse } from '../response/PaginationResponse';
+import { TableRow } from '../response/TableRow';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +13,30 @@ export class TableDataService {
 
   constructor(private http: HttpClient) { }
 
-  // Lấy tất cả dữ liệu từ backend
-  getData(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
+getData(page : number, size : number): Observable<PaginationResponse<TableRow>> {
 
-  // Thêm mới một dòng
+  const params = new HttpParams()
+    .set('page', page.toString()) 
+    .set('size', size.toString()); 
+
+  
+  return this.http.get<PaginationResponse<TableRow>>(`${this.apiUrl}`, { params });
+}
   addNewRow(newRow: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, newRow);
     
   }
 
-  // Sửa thông tin dòng - Sửa lại để sử dụng asserFixedId
-  updateRow(id: number, updatedRow: any): Observable<any> {
+  
+  getById(id: number): Observable<TableRow> {
+  return this.http.get<TableRow>(`${this.apiUrl}/${id}`);
+}
+updateRow(id: number, updatedRow: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, updatedRow);
   }
 
-  // Xóa một dòng
+
+
   deleteRow(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
